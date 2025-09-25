@@ -17,6 +17,7 @@ return new class extends Migration
              $table->string('last_name');
             $table->string('tenant_id')->nullable();
             $table->string('email')->unique();
+             $table->enum('status', ['active', 'inactive'])->default('active'); // Account status (active/inactive/suspended)
              $table->string('role');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

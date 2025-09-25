@@ -27,6 +27,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
+
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ];
@@ -46,6 +47,8 @@ class LoginRequest extends FormRequest
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
+                            // 'tenant_id' => $tenantId, // ✅ ensure user belongs to this tenant
+
             ]);
         }
 

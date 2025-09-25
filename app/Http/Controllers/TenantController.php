@@ -58,7 +58,7 @@ class TenantController extends Controller
         'last_name'      =>  $request->last_name,
         'email'     => $request->email,
         'password'  => bcrypt($request->password),
-        'role'      => 'tenant_admin',
+        'role'      => 'site_manager',
         'tenant_id' => $tenant->id,
     ]);
 

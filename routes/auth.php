@@ -10,12 +10,18 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Tenant\AdminController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
     Route::post('register', [RegisteredUserController::class, 'store']);
+
+     Route::get('tenantadmin/login', [AuthenticatedSessionController::class, 'create'])
+        ->name('admin.login');
+
+     Route::post('admin/login', [AuthenticatedSessionController::class, 'store'])->name('adminlogin');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
@@ -33,9 +39,17 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+        
 });
 
 Route::middleware('auth')->group(function () {
+
+ Route::get('tenantadmin/dashboard', [AdminController::class, 'index'])
+        // ->middleware('role:tenant_manager') // Protect this route with the 'superadmin' role
+        ->name('tenants.dashboard');
+
+
+
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
