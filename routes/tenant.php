@@ -8,6 +8,8 @@ use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Models\Tenant;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Tenant\AdminController;
 use App\Http\Controllers\Tenant\SiteController;
@@ -34,11 +36,15 @@ Route::middleware([
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
-    Route::get('/', function () {
-        $user=User::all();
-        dd($user-> toArray());
-        return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
-    });
+    // Route::get('/', function () {
+    //     $user=User::all();
+    //     dd($user-> toArray());
+    //     return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
+    // });
+
+   Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('tenant.logout');
+    
 
 Route::middleware(['auth'])->group(function () {
 
@@ -64,6 +70,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('account/dashboard', [AccountsController::class, 'index'])
         ->middleware('role:account_manager') // Protect this route with the 'account_manager' role
         ->name('account.dashboard');
+
+        
 });
      // Tenant Dashboard
     // Route::get('/dashboard', function () {

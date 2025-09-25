@@ -29,88 +29,178 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
 
+
     public function store(Request $request): RedirectResponse
 {
-    // Validate the incoming request data
+    // 1. Validate request
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
     ]);
 
-    // Add tenant_id if available
+    // 2. Build credentials
     $credentials = $request->only('email', 'password');
-    
+
+    // Add tenant_id if tenancy is active
     if ($tenantId = tenant('id')) {
         $credentials['tenant_id'] = $tenantId;
 
-        // Check if the user is active and has the appropriate roles within the tenant context
+        // Ensure this tenant actually has at least one active site user
         $checkSiteUser = User::where('status', 'active')
             ->where('tenant_id', $tenantId)
             ->whereHas('roles', function ($query) {
                 $query->whereIn('name', [
-                    RolesEnum::TENANT_MANAGER->value, 
-                    RolesEnum::MANAGER->value, 
-                    RolesEnum::STAFF->value, 
-                    RolesEnum::SITE_MANAGER->value, 
-                    RolesEnum::HR_MANAGER->value, 
-                    RolesEnum::ACCOUNT_MANAGER->value
+                    RolesEnum::TENANT_MANAGER->value,
+                    RolesEnum::SITE_MANAGER->value,
+                    RolesEnum::MANAGER->value,
+                    RolesEnum::STAFF->value,
+                    RolesEnum::HR_MANAGER->value,
+                    RolesEnum::ACCOUNT_MANAGER->value,
                 ]);
             })
-            ->first(); // Fetch a user if one exists with the status 'active' and valid role
+            ->exists();
 
-        // If no active site user exists, return error
-        if (!$checkSiteUser) {
+        if (! $checkSiteUser) {
             return back()->withInput()->withErrors([
-                'email' => 'This site is inactive or you do not have access. Please contact support.',
+                'email' => 'This site is inactive or has no active managers. Please contact support.',
             ]);
         }
     }
 
-    // Attempt to authenticate the user
+    // 3. Attempt authentication
     if (Auth::attempt($credentials, $request->boolean('remember'))) {
         $user = Auth::user();
 
-        // Ensure that the user's status is 'active'
+        // 4. Extra check for active status
         if ($user->status !== 'active') {
-            Auth::logout(); // Log the user out if the account is inactive
+            Auth::logout();
             return back()->withInput()->withErrors([
                 'email' => 'Your account is inactive. Please contact support.',
             ]);
         }
 
-        // Redirect user to their respective dashboard after successful login
+        // 5. Redirect user to correct dashboard
         return $this->redirectUser($user);
     }
 
-    // Authentication failed: the credentials didn't match
+    // 6. Authentication failed
     return back()->withInput()->withErrors([
         'email' => 'The provided credentials do not match our records.',
     ]);
 }
 
+/**
+ * Redirect authenticated user based on role
+ */
 private function redirectUser($user): RedirectResponse
 {
-    // Check the user's role and redirect accordingly
     if ($user->hasRole(RolesEnum::TENANT_MANAGER->value)) {
-        // Redirect to tenant manager dashboard
-        return redirect()->intended(route('tenants.dashboard'));  // This route should point to the tenant dashboard
-    } elseif ($user->hasRole(RolesEnum::SITE_MANAGER->value)) {
-        // Redirect to site manager dashboard
+        return redirect()->intended(route('tenants.dashboard'));
+    }
+
+    if ($user->hasRole(RolesEnum::SITE_MANAGER->value)) {
         return redirect()->intended(route('site.dashboard'));
-    } elseif ($user->hasRole(RolesEnum::MANAGER->value) || $user->hasRole(RolesEnum::STAFF->value)) {
-        // Redirect to staff manager dashboard
+    }
+
+    if ($user->hasRole(RolesEnum::MANAGER->value) || $user->hasRole(RolesEnum::STAFF->value)) {
         return redirect()->intended(route('staff.dashboard'));
-    } elseif ($user->hasRole(RolesEnum::HR_MANAGER->value)) {
-        // Redirect to HR manager dashboard
+    }
+
+    if ($user->hasRole(RolesEnum::HR_MANAGER->value)) {
         return redirect()->intended(route('hr.dashboard'));
-    } elseif ($user->hasRole(RolesEnum::ACCOUNT_MANAGER->value)) {
-        // Redirect to account manager dashboard
+    }
+
+    if ($user->hasRole(RolesEnum::ACCOUNT_MANAGER->value)) {
         return redirect()->intended(route('account.dashboard'));
     }
 
-    // Fallback redirect if no role matches
-    return redirect()->intended(route('/'));  // Redirect to a default route (home or login page)
+    // Default fallback
+    return redirect()->intended('/');
 }
+
+
+//     public function store(Request $request): RedirectResponse
+// {
+//     // Validate the incoming request data
+//     $request->validate([
+//         'email' => 'required|email',
+//         'password' => 'required',
+//     ]);
+
+//     // Add tenant_id if available
+//     $credentials = $request->only('email', 'password');
+    
+//     if ($tenantId = tenant('id')) {
+//         $credentials['tenant_id'] = $tenantId;
+
+//         // Check if the user is active and has the appropriate roles within the tenant context
+//         $checkSiteUser = User::where('status', 'active')
+//             ->where('tenant_id', $tenantId)
+//             ->whereHas('roles', function ($query) {
+//                 $query->whereIn('name', [
+//                     RolesEnum::TENANT_MANAGER->value, 
+//                     RolesEnum::MANAGER->value, 
+//                     RolesEnum::STAFF->value, 
+//                     RolesEnum::SITE_MANAGER->value, 
+//                     RolesEnum::HR_MANAGER->value, 
+//                     RolesEnum::ACCOUNT_MANAGER->value
+//                 ]);
+//             })
+//             ->first(); // Fetch a user if one exists with the status 'active' and valid role
+
+//         // If no active site user exists, return error
+//         if (!$checkSiteUser) {
+//             return back()->withInput()->withErrors([
+//                 'email' => 'This site is inactive or you do not have access. Please contact support.',
+//             ]);
+//         }
+//     }
+
+//     // Attempt to authenticate the user
+//     if (Auth::attempt($credentials, $request->boolean('remember'))) {
+//         $user = Auth::user();
+
+//         // Ensure that the user's status is 'active'
+//         if ($user->status !== 'active') {
+//             Auth::logout(); // Log the user out if the account is inactive
+//             return back()->withInput()->withErrors([
+//                 'email' => 'Your account is inactive. Please contact support.',
+//             ]);
+//         }
+
+//         // Redirect user to their respective dashboard after successful login
+//         return $this->redirectUser($user);
+//     }
+
+//     // Authentication failed: the credentials didn't match
+//     return back()->withInput()->withErrors([
+//         'email' => 'The provided credentials do not match our records.',
+//     ]);
+// }
+
+// private function redirectUser($user): RedirectResponse
+// {
+//     // Check the user's role and redirect accordingly
+//     if ($user->hasRole(RolesEnum::TENANT_MANAGER->value)) {
+//         // Redirect to tenant manager dashboard
+//         return redirect()->intended(route('tenants.dashboard'));  // This route should point to the tenant dashboard
+//     } elseif ($user->hasRole(RolesEnum::SITE_MANAGER->value)) {
+//         // Redirect to site manager dashboard
+//         return redirect()->intended(route('site.dashboard'));
+//     } elseif ($user->hasRole(RolesEnum::MANAGER->value) || $user->hasRole(RolesEnum::STAFF->value)) {
+//         // Redirect to staff manager dashboard
+//         return redirect()->intended(route('staff.dashboard'));
+//     } elseif ($user->hasRole(RolesEnum::HR_MANAGER->value)) {
+//         // Redirect to HR manager dashboard
+//         return redirect()->intended(route('hr.dashboard'));
+//     } elseif ($user->hasRole(RolesEnum::ACCOUNT_MANAGER->value)) {
+//         // Redirect to account manager dashboard
+//         return redirect()->intended(route('account.dashboard'));
+//     }
+
+//     // Fallback redirect if no role matches
+//     return redirect()->intended(route('/'));  // Redirect to a default route (home or login page)
+// }
 
 // public function store(Request $request): RedirectResponse
 // {
@@ -216,14 +306,15 @@ private function redirectUser($user): RedirectResponse
 //     return redirect()->intended(route('default.dashboard'));
 // }
 
-   public function destroy(Request $request)
+   public function destroy(Request $request): RedirectResponse
     {
-        Auth::logout(); // Log out the user
+        // Log the user out and invalidate the session
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        $request->session()->invalidate(); // Invalidate the session
-        $request->session()->regenerateToken(); // Regenerate the CSRF token
-
-        return redirect('/'); // Redirect to login page
+        // Redirect to the home page or the app URL
+        return redirect(env('APP_URL'));
     }
 
     /**
