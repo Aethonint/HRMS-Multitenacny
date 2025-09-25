@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tenant;
-
-
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
+
 use App\UserStatus;
 use App\RolesEnum;
 use Illuminate\Support\Str;
@@ -74,4 +76,32 @@ public function store(Request $request)
             ->route('tenants.create')
             ->with('success', "Tenant {$request->site_name} with domain {$domain} created successfully!");
     }
+     // Handle employee addition (POST request)
+   public function addEmployee(Request $request)
+{
+    // Validate the form inputs
+    $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name'  => 'required|string|max:255',
+        'email'      => 'required|email|unique:users,email',
+        'password'   => 'required|string|min:8',  // Password validation
+    ]);
+
+    // Create the user and assign the tenant_id of the authenticated user
+    $user = User::create([  // This creates the user and assigns it to $user
+        'first_name'    => $request->first_name,
+        'last_name'     => $request->last_name,
+        'email'         => $request->email,
+        'password'      => bcrypt($request->password), // Hash the password
+        'tenant_id'     => Auth::user()->tenant->id,  // Store the authenticated user's tenant ID
+        'status'        => UserStatus::ACTIVE->value,  // Set user status to 'active'
+    ]);
+
+    // Assign the role 'staff' to the newly created user
+    $user->assignRole(RolesEnum::STAFF->value);
+
+    // Redirect back with a success message
+    return back()->with('success', 'Employee added successfully!');
+}
+
 }

@@ -10,6 +10,8 @@ Route::group([
 
 
 
+    
+
  Route::get('/', [TenantController::class, 'index'])->name('tenant.index');
 
 // Route::get('/dashboard', function () {

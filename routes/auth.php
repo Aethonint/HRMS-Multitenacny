@@ -45,7 +45,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
 
  Route::get('tenantadmin/dashboard', [AdminController::class, 'index'])
-        // ->middleware('role:tenant_manager') // Protect this route with the 'superadmin' role
+        ->middleware('role:tenant_manager') // Protect this route with the 'superadmin' role
         ->name('tenants.dashboard');
 
 

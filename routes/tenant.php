@@ -55,6 +55,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('site/dashboard', [SiteController::class, 'index'])
         ->middleware('role:site_manager') // Protect this route with the 'site_manager' role
         ->name('site.dashboard');
+          // Route to handle adding employee (POST request from the form)
+    Route::post('/tenant/add-employee', [TenantController::class, 'addEmployee'])->name('tenant.add_employee');
 
     // Staff Dashboard
     Route::get('staff/dashboard', [StaffController::class, 'index'])
@@ -85,6 +87,8 @@ Route::middleware(['auth'])->group(function () {
   
 
 });
+
+
 
 
 
