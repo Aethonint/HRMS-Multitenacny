@@ -10,13 +10,6 @@ use Stancl\Tenancy\Database\Concerns\HasDomains;
 class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains;
-   
-  public static function getCustomColumns() :array
-    {
-         return [
-            'id',
-            'name',
-           
-         ];
-    }
+ protected $table = 'domains';
+    protected $fillable = ['id','domain','tenant_id'];
 }

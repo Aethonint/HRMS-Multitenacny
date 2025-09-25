@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\TenantController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -31,3 +32,8 @@ Route::middleware([
         return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
     });
 });
+
+ Route::get('/tenants/create', [TenantController::class, 'create'])->name('tenants.create');
+    Route::post('/tenants/store', [TenantController::class, 'store'])->name('tenants.store');
+    // routes/web.php
+Route::get('/sites', [TenantController::class, 'index'])->name('tenants.index');
