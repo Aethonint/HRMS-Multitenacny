@@ -92,8 +92,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-  Route::get('/tenants/create', [TenantController::class, 'create'])->name('tenants.create');
-    Route::post('/tenants/store', [TenantController::class, 'store'])->name('tenants.store');
+
     // routes/web.php
 Route::get('/sites', [TenantController::class, 'index'])->name('tenants.index');
 

@@ -9,6 +9,9 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Models\Tenant;
+use App\Models\User;
+use App\Http\Controllers\TenantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Tenant\AdminController;
 
@@ -47,6 +50,8 @@ Route::middleware('auth')->group(function () {
  Route::get('tenantadmin/dashboard', [AdminController::class, 'index'])
         ->middleware('role:tenant_manager') // Protect this route with the 'superadmin' role
         ->name('tenants.dashboard');
+          Route::get('/tenants/create', [TenantController::class, 'create'])->middleware('role:tenant_manager')->name('tenants.create');
+    Route::post('/tenants/store', [TenantController::class, 'store'])->middleware('role:tenant_manager')->name('tenants.store');
 
 
 

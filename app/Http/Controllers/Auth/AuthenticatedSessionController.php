@@ -16,8 +16,9 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create():  View
     {
+       
         return view('auth.login');
     }
      public function site(): View
@@ -78,6 +79,21 @@ class AuthenticatedSessionController extends Controller
                 'email' => 'Your account is inactive. Please contact support.',
             ]);
         }
+
+        // 4.5. CHECK TENANT ADMIN ACCESS - ADD THIS BLOCK
+          // 4.5. CHECK TENANT ADMIN ACCESS
+        // if ($request->is('tenantadmin/login') || str_contains($request->url(), 'tenantadmin/login')) {
+        //     if (!$user->hasRole(RolesEnum::TENANT_MANAGER->value)) {
+        //         Auth::logout();
+        //         return back()->withInput()->withErrors([
+        //             'email' => 'You have no access to access this portal.',
+        //         ]);
+        //     }
+        //     // If tenant manager logged in via tenantadmin/login, redirect to admin dashboard
+        //     return redirect()->intended(route('tenants.dashboard'));
+        // }
+
+        
 
         // 5. Redirect user to correct dashboard
         return $this->redirectUser($user);
