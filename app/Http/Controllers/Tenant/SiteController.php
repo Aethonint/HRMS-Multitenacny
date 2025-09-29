@@ -9,6 +9,6 @@ class SiteController extends Controller
 {
     public function index()
     {
-        return view('tenants.sites.index');
+        return view('tenants.sites.dashboard');
     }
 }
