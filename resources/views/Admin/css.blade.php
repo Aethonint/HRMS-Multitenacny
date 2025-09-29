@@ -10,8 +10,8 @@
 
 <style>
   #toast-container.toast-top-right {
-    top: 20px !important;
-    right: 20px !important;
+    top: 10px !important;
+    right: 10px !important;
     z-index: 999999 !important; /* ensure above modals/loader */
 }
 #toast-container > .toast {
