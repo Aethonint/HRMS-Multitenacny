@@ -111,7 +111,7 @@ class AuthenticatedSessionController extends Controller
 private function redirectUser($user): RedirectResponse
 {
     if ($user->hasRole(RolesEnum::TENANT_MANAGER->value)) {
-        return redirect()->intended(route('tenants.dashboard'));
+        return redirect()->intended(route('admin.dashboard'));
     }
 
     if ($user->hasRole(RolesEnum::SITE_MANAGER->value)) {

@@ -52,4 +52,9 @@ protected $fillable = [
             'password' => 'hashed',
         ];
     }
+     // One user can manage many tenants (if needed)
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id', 'id');
+    }
 }

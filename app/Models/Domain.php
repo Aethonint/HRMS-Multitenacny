@@ -12,4 +12,10 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     use HasDatabase, HasDomains;
  protected $table = 'domains';
     protected $fillable = ['id','domain','tenant_id'];
+
+
+   public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id', 'id');
+    }
 }

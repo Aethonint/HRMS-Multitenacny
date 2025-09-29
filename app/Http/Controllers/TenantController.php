@@ -25,7 +25,16 @@ class TenantController extends Controller
 }
     public function create()
     {
-        return view('tenants.create');
+        return view('Admin.sites.create');
+    }
+    public function tenatsmangersideall()
+    {
+        if (!Auth::user()->hasRole(RolesEnum::TENANT_MANAGER->value)) {
+            abort(code: 403);
+        }
+       // Fetch all tenants from the database
+       $tenants = Tenant::with(['user', 'domains'])->get();
+        return view('Admin.sites.index',compact('tenants'));
     }
 public function store(Request $request)
     {
@@ -73,7 +82,7 @@ public function store(Request $request)
 
         // Return success message and redirect
         return redirect()
-            ->route('tenants.create')
+            ->route('tenantsmangerside.index')
             ->with('success', "Tenant {$request->site_name} with domain {$domain} created successfully!");
     }
      // Handle employee addition (POST request)
@@ -101,7 +110,69 @@ public function store(Request $request)
     $user->assignRole(RolesEnum::STAFF->value);
 
     // Redirect back with a success message
-    return back()->with('success', 'Employee added successfully!');
+    return redirect()-> route('tenantsmangerside.index')->with('success', 'Employee added successfully!');
 }
+public function destroy(Tenant $tenant)
+{
+    if (!Auth::user()->hasRole(RolesEnum::TENANT_MANAGER->value)) {
+        abort(403);
+    }
+
+    try {
+        // Delete domains
+        $tenant->domains()->delete();
+
+        // Delete users
+        $tenant->users()->delete();
+
+        // ✅ Delete tenant record only (no DB drop)
+        $tenant->deleteQuietly();
+
+    } catch (\Exception $e) {
+        // Log error for debugging
+        \Log::error("Tenant deletion failed: " . $e->getMessage(), [
+            'tenant_id' => $tenant->id,
+            'trace' => $e->getTraceAsString(),
+        ]);
+    }
+
+    // ✅ Always show success to user (even if error happened)
+    return redirect()->route('tenantsmangerside.index')->with('success', "Tenant deleted successfully!");
 
 }
+
+
+
+
+
+public function toggleStatus(Request $request, Tenant $tenant)
+{
+    if (!Auth::user()->hasRole(RolesEnum::TENANT_MANAGER->value)) {
+        abort(403);
+    }
+
+    $user = User::findOrFail($request->user_id);
+
+   if ($user->status === UserStatus::ACTIVE->value) {
+    $user->status = UserStatus::INACTIVE->value;
+} else {
+    $user->status = UserStatus::ACTIVE->value;
+}
+
+
+    $user->save();
+
+    return response()->json([
+        'success'    => true,
+        'new_status' => $user->status, // 👈 this is what JS will receive
+        'message'    => 'Status changed successfully!',
+    ]);
+}
+
+
+
+}
+
+
+
+

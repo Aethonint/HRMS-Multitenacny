@@ -49,8 +49,16 @@ Route::middleware('auth')->group(function () {
 
  Route::get('tenantadmin/dashboard', [AdminController::class, 'index'])
         ->middleware('role:tenant_manager') // Protect this route with the 'superadmin' role
-        ->name('tenants.dashboard');
+        ->name('admin.dashboard');
           Route::get('/tenants/create', [TenantController::class, 'create'])->middleware('role:tenant_manager')->name('tenants.create');
+            Route::get('/all/tenants', [TenantController::class, 'tenatsmangersideall'])->middleware('role:tenant_manager')->name('tenantsmangerside.index');
+          Route::delete('/tenants/{tenant}', [TenantController::class, 'destroy'])->middleware('role:tenant_manager')
+    ->name('tenants.destroy');
+          Route::patch('/tenants/{tenant}/toggle-status', [TenantController::class, 'toggleStatus'])->middleware('role:tenant_manager')
+    ->name('tenants.toggleStatus');
+
+
+         
     Route::post('/tenants/store', [TenantController::class, 'store'])->middleware('role:tenant_manager')->name('tenants.store');
 
 
