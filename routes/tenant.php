@@ -18,6 +18,7 @@ use App\Http\Controllers\Tenant\HRController;
 use App\Http\Controllers\Tenant\AccountsController;
 use App\Http\Controllers\Tenant\DefaultController;
 use App\Http\Controllers\Tenant\ManagerController;
+use App\Http\Controllers\Tenant\TenantAdminController;
 use App\Http\Controllers\Tenant\UserController;
 
 /*
@@ -61,41 +62,35 @@ Route::middleware(['auth'])->group(function () {
     ]);
     Route::patch('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])
     ->name('tenant.users.toggleStatus');
+     
 
         });
 
 
-           // HR Manager Dashboard
-    Route::get('hr/dashboard', [HRController::class, 'index'])
-        ->middleware('role:hr_manager') // Protect this route with the 'hr_manager' role
-        ->name('hr.dashboard');
+         // HR Manager
+    Route::middleware(['role:hr_manager'])->prefix('hr')->group(function () {
+        Route::get('/dashboard', [HRController::class, 'index'])->name('hr.dashboard');
+    });
 
-    // Staff Dashboard
-    Route::get('staff/dashboard', [StaffController::class, 'index'])
-        ->middleware('role:staff') // Protect this route with the 'staff' role
-        ->name('staff.dashboard');
-        
+    // Staff
+    Route::middleware(['role:staff'])->prefix('staff')->group(function () {
+        Route::get('/dashboard', [StaffController::class, 'index'])->name('staff.dashboard');
+    });
 
- 
+    // Account Manager
+    Route::middleware(['role:account_manager'])->prefix('account')->group(function () {
+        Route::get('/dashboard', [AccountsController::class, 'index'])->name('account.dashboard');
+    });
 
-    // Account Manager Dashboard
-    Route::get('account/dashboard', [AccountsController::class, 'index'])
-        ->middleware('role:account_manager') // Protect this route with the 'account_manager' role
-        ->name('account.dashboard');
+    // Manager
+    Route::middleware(['role:manager'])->prefix('manager')->group(function () {
+        Route::get('/dashboard', [ManagerController::class, 'index'])->name('manager.dashboard');
+    });
 
-
-        // manager Manager Dashboard
-    Route::get('manager/dashboard', [ManagerController::class, 'index'])
-        ->middleware('role:manager') // Protect this route with the 'account_manager' role
-        ->name('manager.dashboard');
-
-
-
-         // Admin Manager Dashboard
-    Route::get('admin/dashboard', [adminController::class, 'index'])
-        ->middleware('role:admin') // Protect this route with the 'account_admin' role
-        ->name('tenantadmin.dashboard');
-
+    // Admin
+    Route::middleware(['role:admin'])->prefix('admin')->group(function () {
+        Route::get('/dashboard', [TenantAdminController::class, 'index'])->name('tenantadmin.dashboard');
+    });
         
 });
      // Tenant Dashboard

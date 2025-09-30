@@ -151,7 +151,7 @@
                             <li class="body">
                                 <ul class="user_dw_menu">
                                     <li>
-                                        <a href="#" onClick="return false;">
+                                        <a href="{{route('super.admin.profile')}}" >
                                             <i class="material-icons">person</i>Profile
                                         </a>
                                     </li>

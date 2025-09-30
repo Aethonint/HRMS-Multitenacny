@@ -5,14 +5,14 @@
                    
                    
                     <li class="active">
-                        <a href="{{route('admin.dashboard')}}" onClick="return false;" class="menu-toggle">
+                        <a href="{{route('admin.dashboard')}}"  class="active">
                             <i data-feather="monitor"></i>
                             <span>Dashboard</span>
                         </a>
                        
                     </li>
                     <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
+                        <a href="#"  class="menu-toggle">
                             <i data-feather="users"></i>
                             <span>Sites</span>
                         </a>

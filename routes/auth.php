@@ -57,6 +57,9 @@ Route::middleware('auth')->group(function () {
           Route::patch('/tenants/{tenant}/toggle-status', [TenantController::class, 'toggleStatus'])->middleware('role:tenant_manager')
     ->name('tenants.toggleStatus');
 
+     Route::get('/tenants/manager/profile/edit', [TenantController::class, 'profileedit'])->middleware('role:tenant_manager')->name('super.admin.profile');
+    
+
 
          
     Route::post('/tenants/store', [TenantController::class, 'store'])->middleware('role:tenant_manager')->name('tenants.store');

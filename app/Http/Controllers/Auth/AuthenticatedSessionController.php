@@ -55,6 +55,7 @@ class AuthenticatedSessionController extends Controller
                     RolesEnum::SITE_MANAGER->value,
                     RolesEnum::MANAGER->value,
                     RolesEnum::STAFF->value,
+                     RolesEnum::ADMIN->value,
                     RolesEnum::HR_MANAGER->value,
                     RolesEnum::ACCOUNT_MANAGER->value,
                 ]);
