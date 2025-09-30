@@ -9,6 +9,6 @@ class StaffController extends Controller
 {
    public function index()
    {
-    return view('tenants.staff.index');
+    return view('tenants.staff.dashboard');
    }
 }

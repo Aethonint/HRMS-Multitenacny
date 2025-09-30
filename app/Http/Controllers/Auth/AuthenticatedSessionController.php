@@ -118,9 +118,16 @@ private function redirectUser($user): RedirectResponse
         return redirect()->intended(route('site.dashboard'));
     }
 
-    if ($user->hasRole(RolesEnum::MANAGER->value) || $user->hasRole(RolesEnum::STAFF->value)) {
+    if ($user->hasRole(RolesEnum::STAFF->value)) {
         return redirect()->intended(route('staff.dashboard'));
     }
+    if($user->hasRole(RolesEnum::MANAGER->value) ){
+return redirect()->intended(route('manager.dashboard'));
+    }
+     if($user->hasRole(RolesEnum::ADMIN->value) ){
+return redirect()->intended(route('tenantadmin.dashboard'));
+    }
+
 
     if ($user->hasRole(RolesEnum::HR_MANAGER->value)) {
         return redirect()->intended(route('hr.dashboard'));

@@ -107,3 +107,24 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
 });
 </script>
 
+
+
+
+<script>
+$(document).on('change', '.status-toggle', function() {
+    let userId = $(this).data('id');
+    $.ajax({
+        url: '/users/' + userId + '/toggle-status',
+        type: 'PATCH',
+        data: {
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            console.log("Status updated:", response.status);
+        },
+        
+    });
+});
+</script>
+
+

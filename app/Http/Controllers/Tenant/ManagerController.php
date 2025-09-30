@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class HrController extends Controller
+class ManagerController extends Controller
 {
-    public function index()
+  public function index()
    {
-    return view('tenants.hr.dashboard');
+    return view('tenants.manager.dashboard');
    }
 }

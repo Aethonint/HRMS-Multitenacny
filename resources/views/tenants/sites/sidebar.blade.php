@@ -16,9 +16,9 @@
                             {{-- <div class="profile-usertitle-job ">{{Auth::user()->first_name ??Guest}} </div> --}}
                         </div>
                     </li>
-                   
+                    <li>
                         <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="users"></i>
+                            <i data-feather="user"></i>
                             <span>Employees</span>
                         </a>
                         <ul class="ml-menu">
@@ -205,7 +205,7 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="{{asset('admin/pages/payroll/payslip.html')}}">All Users</a>
+                                <a href="{{route('tenant.users.index')}}">All Users</a>
                             </li>
                            
                         </ul>

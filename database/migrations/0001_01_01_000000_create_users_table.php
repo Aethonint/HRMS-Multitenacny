@@ -18,8 +18,12 @@ return new class extends Migration
             $table->string('tenant_id')->nullable();
             $table->string('email')->unique();
              $table->enum('status', ['active', 'inactive'])->default('active'); // Account status (active/inactive/suspended)
-             $table->string('role');
+           
             $table->timestamp('email_verified_at')->nullable();
+             $table->timestamp('last_login')->nullable(); // Last login timestamp
+            $table->date('start_date')->nullable(); // Date when the user started
+            $table->integer('employee_id')->nullable(); // Employee ID (HR tracking)
+            $table->date('joining_date')->nullable(); // Date when the user joined the company
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

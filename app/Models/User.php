@@ -57,4 +57,8 @@ protected $fillable = [
     {
         return $this->belongsTo(Tenant::class, 'tenant_id', 'id');
     }
+     public function profile()
+    {
+        return $this->hasOne(Profile::class, 'user_id');
+    }
 }
