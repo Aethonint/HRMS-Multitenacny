@@ -294,7 +294,7 @@
 
     <div class="body">
         <!-- Password Update Form -->
-        <form method="POST" action="{{ route('password.update') }}">
+        <form method="POST" action="{{ route('site.password.update') }}">
             @csrf
             @method('put')
 
@@ -515,6 +515,19 @@
                 </div>
             </div>
         </form>
+
+        @if(Auth::user()->hasRole(\App\RolesEnum::SITE_MANAGER->value))
+    <form action="{{ route('tenant.logo.update') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PATCH')
+
+        <label for="logo">Upload Tenant Logo</label>
+        <input type="file" name="logo" class="form-control">
+
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
+    </form>
+@endif
+
   
 
                                 </div>

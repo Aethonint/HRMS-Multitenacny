@@ -5,7 +5,22 @@
                     data-bs-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="#" onClick="return false;" class="bars"></a>
                 <a class="navbar-brand" href="{{asset('admin/index.html')}}">
-                    <img src="{{asset('admin/assets/images/logo.png')}}" alt="" />
+                  {{-- @php
+    // Get the current tenant
+    $tenant = function_exists('tenant') ? tenant() : Auth::user()->tenant;
+@endphp
+
+@if($tenant && $tenant->logo)
+    <img src="{{ asset('storage/' . $tenant->logo) }}" 
+         alt="Tenant Logo" 
+         class="tenant-logo" 
+         width="100" height="100">
+@else
+    <img src="{{ asset('default-logo.png') }}" 
+         alt="Default Logo" 
+         class="tenant-logo" 
+         width="100" height="100">
+@endif --}}
                     <span class="logo-name">{{ Auth::user()->tenant->name ?? 'No Tenant' }}</span>
                 </a>
             </div>
@@ -145,7 +160,12 @@
                     <!-- #END# Notifications-->
                     <li class="dropdown user_profile">
                         <div class="dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="{{asset('admin/assets/images/user.jpg')}}" alt="user">
+                           @if(optional(Auth::user()->profile)->profile_picture)
+    <img src="{{ asset('storage/' . Auth::user()->profile->profile_picture) }}" 
+         alt="Profile Picture" width="40" height="40">
+@else
+    <img src="{{ asset('default-avatar.png') }}" alt="Default Picture" width="40" height="40"> 
+@endif
                         </div>
                         <ul class="dropdown-menu pullDown">
                             <li class="body">

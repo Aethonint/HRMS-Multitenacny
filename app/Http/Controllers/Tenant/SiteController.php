@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\RolesEnum;
 use Illuminate\Support\Facades\Storage;
 class SiteController extends Controller
 {
@@ -61,6 +62,9 @@ public function profileupdate(Request $request)
             'country',
         ])->toArray();
 
+          // ✅ Always include tenant_id (required field)
+        $profileData['tenant_id'] = $user->tenant_id ?? tenant('id');
+
     
 if ($request->hasFile('profile_picture')) {
     // delete old file if present
@@ -73,6 +77,8 @@ if ($request->hasFile('profile_picture')) {
 
     // save only the relative path to DB: "profile_pictures/abc.png"
     $profileData['profile_picture'] = $path;
+     // ✅ Always include tenant_id
+       
 }
 
         // ✅ Update or create profile
@@ -85,6 +91,33 @@ if ($request->hasFile('profile_picture')) {
     return redirect()
         ->back()
         ->with('success', 'Profile updated successfully.');
+}
+public function updateLogo(Request $request)
+{
+    $user = $request->user();
+
+    // ✅ Only allow SITE_MANAGER role
+    if (! $user->hasRole(RolesEnum::SITE_MANAGER->value)) {
+        abort(403, 'Only site managers can update tenant logo.');
+    }
+
+    $tenant = function_exists('tenant') ? tenant() : $user->tenant;
+
+    $request->validate([
+        'logo' => 'required|image|mimes:png,jpg,jpeg,webp,svg|max:4096',
+    ]);
+
+    // Delete old logo if exists
+    if ($tenant->logo) {
+        Storage::disk('global_public')->delete($tenant->logo);
+    }
+
+    // Store new logo under "logos/{tenant_id}"
+    $path = $request->file('logo')->store("logos/{$tenant->id}", 'global_public');
+
+    $tenant->update(['logo' => $path]);
+
+    return back()->with('success', 'Tenant logo updated successfully.');
 }
 
 

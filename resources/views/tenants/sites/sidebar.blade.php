@@ -5,10 +5,15 @@
                     <li class="sidebar-user-panel active">
                         <div class="user-panel">
                             <div class="image">
-                               {{-- <img 
-                            src="{{ tenant_asset('tenants/' . Auth::user()->tenant_id . '/profile_pictures/' . Auth::user()->profile->profile_picture) }}" 
-                            class="user-img-style" 
-                            alt="User Image" /> --}}
+    @if(optional(Auth::user()->profile)->profile_picture)
+    <img 
+        src="{{ asset('storage/' . Auth::user()->profile->profile_picture) }}" 
+        class="user-img-style" 
+        alt="User Image" />
+@else
+    <img src="{{ asset('default-avatar.png') }}" class="user-img-style" alt="Default Picture" width="100">
+@endif
+
                             </div>
                         </div>
                         <div class="profile-usertitle">

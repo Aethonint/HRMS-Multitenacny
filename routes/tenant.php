@@ -21,6 +21,7 @@ use App\Http\Controllers\Tenant\DefaultController;
 use App\Http\Controllers\Tenant\ManagerController;
 use App\Http\Controllers\Tenant\TenantAdminController;
 use App\Http\Controllers\Tenant\UserController;
+use App\Http\Controllers\Auth\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,10 @@ Route::middleware(['auth'])->group(function () {
     ->name('tenant.users.toggleStatus');
       Route::get('site/profile/edit', [SiteController::class, 'profileedit'])->name('site.profile.view');
       Route::Patch('site/profile/update', [SiteController::class, 'profileupdate'])->name('site.profile.update');
+       Route::put('password', [PasswordController::class, 'update'])->name('site.password.update');
+
+         Route::patch('/tenant/logo', [SiteController::class, 'updateLogo'])
+            ->name('tenant.logo.update');
     
 
         });

@@ -6,7 +6,7 @@
                 <a href="#" onClick="return false;" class="bars"></a>
                 <a class="navbar-brand" href="{{asset('admin/index.html')}}">
                     <img src="{{asset('admin/assets/images/logo.png')}}" alt="" />
-                    <span class="logo-name">AtrioHR</span>
+                  {{ Auth::user()->tenant->name ?? 'No Tenant' }}
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
