@@ -5,15 +5,16 @@
                     <li class="sidebar-user-panel active">
                         <div class="user-panel">
                             <div class="image">
-                                {{-- <img 
-    src="{{ $user->profile && $user->profile->profile_picture 
-        ? asset('storage/' . $user->profile->profile_picture) 
-        : asset('assets/images/user/usrbig3.jpg') }}"  class="user-img-style" alt="User Image" /> --}}
+                               {{-- <img 
+                            src="{{ tenant_asset('tenants/' . Auth::user()->tenant_id . '/profile_pictures/' . Auth::user()->profile->profile_picture) }}" 
+                            class="user-img-style" 
+                            alt="User Image" /> --}}
                             </div>
                         </div>
                         <div class="profile-usertitle">
-                            <div class="sidebar-userpic-name"> Emily Smith </div>
-                            {{-- <div class="profile-usertitle-job ">{{Auth::user()->first_name ??Guest}} </div> --}}
+                            <div class="sidebar-userpic-name"> {{Auth::user()->first_name ??Guest}} {{Auth::user()->last_name ??Guest}} </div>
+                            <div class="profile-usertitle-job ">{{ Auth::user()->getRoleNames()->first() ?? 'Guest' }}</div>
+                               
                         </div>
                     </li>
                     <li>

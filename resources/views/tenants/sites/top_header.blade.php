@@ -6,7 +6,7 @@
                 <a href="#" onClick="return false;" class="bars"></a>
                 <a class="navbar-brand" href="{{asset('admin/index.html')}}">
                     <img src="{{asset('admin/assets/images/logo.png')}}" alt="" />
-                    <span class="logo-name">AtrioHR</span>
+                    <span class="logo-name">{{ Auth::user()->tenant->name ?? 'No Tenant' }}</span>
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
@@ -151,7 +151,7 @@
                             <li class="body">
                                 <ul class="user_dw_menu">
                                     <li>
-                                        <a href="" onClick="return false;">
+                                        <a href="{{route('site.profile.view')}}" >
                                             <i class="material-icons">person</i>Profile
                                         </a>
                                     </li>

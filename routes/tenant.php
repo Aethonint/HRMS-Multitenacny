@@ -9,6 +9,7 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Tenant\AdminController;
@@ -62,7 +63,9 @@ Route::middleware(['auth'])->group(function () {
     ]);
     Route::patch('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])
     ->name('tenant.users.toggleStatus');
-     
+      Route::get('site/profile/edit', [SiteController::class, 'profileedit'])->name('site.profile.view');
+      Route::Patch('site/profile/update', [SiteController::class, 'profileupdate'])->name('site.profile.update');
+    
 
         });
 

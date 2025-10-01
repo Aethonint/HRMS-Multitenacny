@@ -30,6 +30,15 @@ return [
 
     'disks' => [
 
+         // ADD:
+    'global_public' => [
+        'driver' => 'local',
+        // use base_path so tenancy won't suffix storage_path() accidentally
+        'root' => base_path('storage/app/public'),
+        'url' => env('APP_URL') . '/storage',
+        'visibility' => 'public',
+    ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
@@ -37,6 +46,8 @@ return [
             'throw' => false,
             'report' => false,
         ],
+    
+        
 
         'public' => [
             'driver' => 'local',
@@ -46,6 +57,12 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        
+    'tenant' => [
+        'driver' => 'local',
+        'root' => storage_path('app/tenants'),
+        'visibility' => 'public',
+    ],
 
         's3' => [
             'driver' => 's3',
