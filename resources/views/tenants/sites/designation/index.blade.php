@@ -1,0 +1,95 @@
+@extends('tenants.sites.app')
+@section('content')
+
+<div class="container-fluid">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <ul class="breadcrumb breadcrumb-style">
+                    <li class="breadcrumb-item">
+                        <h4 class="page-title">All Designations</h4>
+                    </li>
+                    <li class="breadcrumb-item bcrumb-1">
+                        <a href=""><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="breadcrumb-item bcrumb-2">
+                        <a href="#" onClick="return false;">Designations</a>
+                    </li>
+                    <li class="breadcrumb-item active">All Designations</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="header d-flex justify-content-between align-items-center">
+                    <h2><strong>All</strong> Designations</h2>
+                    <a href="{{ route('designations.create') }}" class="btn btn-info btn-lg">
+                        <i class="fas fa-plus fa-lg"></i> Add Designation
+                    </a>
+                </div>
+
+                <div class="body">
+                    <div class="table-responsive">
+                        <table id="basicTable" class="table table-hover table-checkable order-column">
+                            <thead>
+                                <tr>
+                                    <th class="center">#</th>
+                                    <th class="center">Title</th>
+                                    <th class="center">Department</th>
+                                    <th class="center">Description</th>
+                                     <th class="center">Added By</th>
+                                    <th class="center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if($designations->count() > 0)
+                                    @foreach($designations as $key => $desig)
+                                        <tr class="odd gradeX">
+                                            <td class="center">{{ $key + 1 }}</td>
+                                            <td class="center">{{ $desig->title }}</td>
+                                            <td class="center">{{ $desig->department->name ?? '-' }}</td>
+                                             
+                                            <td class="center">{{ $desig->description ?? '-' }}</td>
+                                            <td class="center">{{ $desig->added_by ?? '-' }}</td>
+                                            <td class="center">
+                                                <a href="{{ route('designations.edit', $desig->id) }}" class="btn btn-tbl-edit">
+                                                    <i class="material-icons">create</i>
+                                                </a>
+                                                <form action="{{ route('designations.destroy', $desig->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-tbl-delete">
+                                                        <i class="material-icons">delete_forever</i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination -->
+                        @if($designations->hasPages())
+                            <div class="d-flex justify-content-center mt-3">
+                                {{ $designations->links() }}
+                            </div>
+                        @endif
+
+                        <!-- No Data Message -->
+                        @if($designations->count() === 0)
+                            <div class=" text-center mt-3">
+                                No designations found. <a href="{{ route('designations.create') }}">Add New</a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection

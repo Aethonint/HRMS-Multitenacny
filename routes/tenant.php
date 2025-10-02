@@ -22,6 +22,8 @@ use App\Http\Controllers\Tenant\ManagerController;
 use App\Http\Controllers\Tenant\TenantAdminController;
 use App\Http\Controllers\Tenant\UserController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Tenant\DepartmentController;
+use App\Http\Controllers\Tenant\DesignationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +72,9 @@ Route::middleware(['auth'])->group(function () {
 
          Route::patch('/tenant/logo', [SiteController::class, 'updateLogo'])
             ->name('tenant.logo.update');
+
+            Route::resource('departments', DepartmentController::class);
+Route::resource('designations', DesignationController::class);
     
 
         });

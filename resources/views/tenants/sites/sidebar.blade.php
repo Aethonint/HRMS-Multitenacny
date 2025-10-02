@@ -135,14 +135,14 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="{{asset('admin/pages/departments/all-departments.html')}}">All Departments</a>
+                                <a href="{{route('departments.index')}}">All Departments</a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{asset('admin/pages/departments/add-department.html')}}">Add Department</a>
                             </li>
                             <li>
                                 <a href="{{asset('admin/pages/departments/edit-department.html')}}">Edit Departments</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
                     <li>
@@ -152,7 +152,7 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="{{route('tenant.users.index')}}">All Designation</a>
+                                <a href="{{route('designations.index')}}">All Designation</a>
                             </li>
                            
                         </ul>
@@ -202,6 +202,7 @@
                             </li>
                         </ul>
                     </li>
+
                            <li>
                         <a href="#" onClick="return false;" class="menu-toggle">
                             <i data-feather="bar-chart-2"></i>
