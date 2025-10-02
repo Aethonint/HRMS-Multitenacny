@@ -147,6 +147,18 @@
                     </li>
                     <li>
                         <a href="#" onClick="return false;" class="menu-toggle">
+                            <i data-feather="bar-chart-2"></i>
+                            <span>Designation</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="{{route('tenant.users.index')}}">All Designation</a>
+                            </li>
+                           
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" onClick="return false;" class="menu-toggle">
                             <i data-feather="dollar-sign"></i>
                             <span>Payroll</span>
                         </a>
@@ -204,14 +216,15 @@
                             </li>
                         </ul>
                     </li>
+                    
                       <li>
                         <a href="#" onClick="return false;" class="menu-toggle">
                             <i data-feather="bar-chart-2"></i>
-                            <span>User Roles</span>
+                            <span>Add Admins</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="{{route('tenant.users.index')}}">All Users</a>
+                                <a href="{{route('tenant.users.index')}}">All Admin</a>
                             </li>
                            
                         </ul>

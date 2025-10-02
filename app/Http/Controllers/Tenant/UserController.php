@@ -30,7 +30,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::whereNotIn('name', ['tenant_manager', 'site_manager'])->get();
+        $roles = Role::whereNotIn('name', ['tenant_manager', 'site_manager','hr_manager','account_manager','manager','staff'])->get();
 
         return view('tenants.sites.roles.create', compact('roles'));
     }

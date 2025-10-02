@@ -75,6 +75,14 @@ Route::middleware(['auth'])->group(function () {
         });
 
 
+
+        
+         // Admin
+    Route::middleware(['role:admin'])->prefix('admin')->group(function () {
+        Route::get('/dashboard', [TenantAdminController::class, 'index'])->name('tenantadmin.dashboard');
+    });
+
+
          // HR Manager
     Route::middleware(['role:hr_manager'])->prefix('hr')->group(function () {
         Route::get('/dashboard', [HRController::class, 'index'])->name('hr.dashboard');
@@ -95,10 +103,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [ManagerController::class, 'index'])->name('manager.dashboard');
     });
 
-    // Admin
-    Route::middleware(['role:admin'])->prefix('admin')->group(function () {
-        Route::get('/dashboard', [TenantAdminController::class, 'index'])->name('tenantadmin.dashboard');
-    });
+   
         
 });
      // Tenant Dashboard
