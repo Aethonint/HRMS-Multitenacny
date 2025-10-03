@@ -33,7 +33,7 @@
 
                 <div class="body">
                     <div class="table-responsive">
-                        <table id="basicTable" class="table table-hover table-checkable order-column">
+                        <table id="" class="table table-hover table-checkable order-column">
                             <thead>
                                 <tr>
                                     <th class="center">#</th>
@@ -53,7 +53,7 @@
                                             <td class="center">{{ $desig->department->name ?? '-' }}</td>
                                              
                                             <td class="center">{{ $desig->description ?? '-' }}</td>
-                                            <td class="center">{{ $desig->added_by ?? '-' }}</td>
+                                              <td class="center">{{ $desig->addedBy->first_name ?? '-' }}</td>
                                             <td class="center">
                                                 <a href="{{ route('designations.edit', $desig->id) }}" class="btn btn-tbl-edit">
                                                     <i class="material-icons">create</i>
@@ -73,18 +73,9 @@
                         </table>
 
                         <!-- Pagination -->
-                        @if($designations->hasPages())
-                            <div class="d-flex justify-content-center mt-3">
-                                {{ $designations->links() }}
-                            </div>
-                        @endif
-
-                        <!-- No Data Message -->
-                        @if($designations->count() === 0)
-                            <div class=" text-center mt-3">
-                                No designations found. <a href="{{ route('designations.create') }}">Add New</a>
-                            </div>
-                        @endif
+                        <div class="pagination-container">
+                              {{ $designations->links('vendor.pagination.custom') }} <!-- This renders the pagination links -->
+                        </div>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\Department;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DesignationController extends Controller
 {
@@ -47,6 +49,7 @@ public function create()
             'department_id' => $request->department_id,
             'title'         => $request->title,
             'description'   => $request->description,
+             'added_by' => Auth::id(),
         ]);
 
         return redirect()->route('designations.index')
@@ -66,7 +69,7 @@ public function create()
 
         $departments = Department::where('tenant_id', auth()->user()->tenant_id)->get();
 
-        return view('sites.designation.edit', compact('designation', 'departments'));
+        return view('tenants.sites.designation.edit', compact('designation', 'departments'));
     }
 
     public function update(Request $request, Designation $designation)

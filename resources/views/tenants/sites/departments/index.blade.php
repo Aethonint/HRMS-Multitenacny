@@ -1,4 +1,5 @@
 @extends('tenants.sites.app')
+
 @section('content')
 
 <div class="container-fluid">
@@ -33,7 +34,7 @@
 
                 <div class="body">
                     <div class="table-responsive">
-                        <table id="basicTable" class="table table-hover table-checkable order-column">
+                        <table id="" class="table table-hover table-checkable order-column contact_list">
                             <thead>
                                 <tr>
                                     <th class="center">#</th>
@@ -45,13 +46,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($departments as $key => $dept)
+                                @foreach($departments as $key => $dept)
                                     <tr class="odd gradeX">
-                                        <td class="center">{{ $key + 1 }}</td>
+                                        <td class="table-img center">{{ $loop->iteration }}</td>
                                         <td class="center">{{ $dept->name }}</td>
                                         <td class="center">{{ $dept->head->first_name ?? '-' }} {{ $dept->head->last_name ?? '' }}</td>
-                                          <td class="center">{{ $dept->description ?? '-' }}</td>
-                                         <td class="center">{{ $dept->added_by ?? '-' }}</td>
+                                        <td class="center">{{ $dept->description ?? '-' }}</td>
+                                        <td class="center">{{ $dept->addedBy->first_name ?? '-' }}</td>
+
                                         <td class="center">
                                             <a href="{{ route('departments.edit', $dept->id) }}" class="btn btn-tbl-edit">
                                                 <i class="material-icons">create</i>
@@ -65,17 +67,13 @@
                                             </form>
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="4" class="text-center">No departments found</td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
 
-                        <!-- Pagination -->
-                        <div class="d-flex justify-content-center mt-3">
-                            {{ $departments->links() }}
+                        <!-- Pagination Links -->
+                        <div class="pagination-container">
+                              {{ $departments->links('vendor.pagination.custom') }} <!-- This renders the pagination links -->
                         </div>
                     </div>
                 </div>

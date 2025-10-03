@@ -5,6 +5,7 @@
     <link href="{{asset('admin/assets/css/style.css')}}" rel="stylesheet" />
     <!-- You can choose a theme from css/styles instead of get all themes -->
     <link href="{{asset('admin/assets/css/styles/all-themes.css')}}" rel="stylesheet" />
+       <link href="{{asset('admin/assets/css/bundles/dataTables.bootstrap5.min.css')}}" rel="stylesheet">
 
 <!-- Toastr CSS -->
 
@@ -18,4 +19,6 @@
     margin-bottom: 10px;
     border-radius: 6px;
 }
+
+
 </style>

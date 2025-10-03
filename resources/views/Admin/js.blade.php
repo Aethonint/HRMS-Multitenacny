@@ -128,3 +128,19 @@ $(document).on('change', '.status-toggle', function() {
 </script>
 
 
+
+
+<script>
+  if ($.fn.DataTable.isDataTable('#basicTable')) {
+    $('#basicTable').DataTable().clear().destroy();
+}
+
+$('#basicTable').DataTable({
+    paging: false,      // disable DataTables pagination
+    info: false,        // remove "Showing X of Y entries"
+    searching: false    // disable search if you want
+});
+
+});
+
+</script>

@@ -1,265 +1,173 @@
- <aside id="leftsidebar" class="sidebar">
-            <!-- Menu -->
-            <div class="menu">
-                <ul class="list">
-                    <li class="sidebar-user-panel active">
-                        <div class="user-panel">
-                            <div class="image">
-    @if(optional(Auth::user()->profile)->profile_picture)
-    <img 
-        src="{{ asset('storage/' . Auth::user()->profile->profile_picture) }}" 
-        class="user-img-style" 
-        alt="User Image" />
-@else
-    <img src="{{ asset('default-avatar.png') }}" class="user-img-style" alt="Default Picture" width="100">
-@endif
+<aside id="leftsidebar" class="sidebar">
+    <!-- Menu -->
+    <div class="menu">
+        <ul class="list">
+            <!-- User Panel -->
+            <li class="sidebar-user-panel active">
+                <div class="user-panel">
+                    <div class="image">
+                        @if(optional(Auth::user()->profile)->profile_picture)
+                        <img 
+                            src="{{ asset('storage/' . Auth::user()->profile->profile_picture) }}" 
+                            class="user-img-style" 
+                            alt="User Image" />
+                        @else
+                        <img src="{{ asset('default-avatar.png') }}" class="user-img-style" alt="Default Picture" width="100">
+                        @endif
+                    </div>
+                </div>
+                <div class="profile-usertitle">
+                    <div class="sidebar-userpic-name">
+                        {{ Auth::user()->first_name ?? 'Guest' }} {{ Auth::user()->last_name ?? 'Guest' }}
+                    </div>
+                    <div class="profile-usertitle-job">
+                        {{ Auth::user()->getRoleNames()->first() ?? 'Guest' }}
+                    </div>
+                </div>
+            </li>
 
-                            </div>
-                        </div>
-                        <div class="profile-usertitle">
-                            <div class="sidebar-userpic-name"> {{Auth::user()->first_name ??Guest}} {{Auth::user()->last_name ??Guest}} </div>
-                            <div class="profile-usertitle-job ">{{ Auth::user()->getRoleNames()->first() ?? 'Guest' }}</div>
-                               
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="user"></i>
-                            <span>Employees</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/employee/all-employees.html')}}">All Employee</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/employee/add-employee.html')}}">Add Employee</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/employee/edit-employee.html')}}">Edit Employee</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="briefcase"></i>
-                            <span>Projects</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/projects/all-projects.html')}}">All Projects</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/projects/add-project.html')}}">Add Project</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/projects/edit-project.html')}}">Edit Project</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="book-open"></i>
-                            <span>Attendance</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/attendance/today-attend.html')}}">Today Attendance</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/attendance/emp-attend.html')}}">Employee Attendance</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="user"></i>
-                            <span>Clients</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/clients/all-clients.html')}}">All Clients</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/clients/add-client.html')}}">Add Client</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/clients/edit-client.html')}}">Edit Client</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="clipboard"></i>
-                            <span>Leave Management</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/leave/all-leave.html')}}">All Leave Request</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/leave/leave-balance.html')}}">Leave Balance</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/leave/add-leave.html')}}">New Leave Request</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/leave/edit-leave.html')}}">Edit Leave Request</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/leave/leave-type.html')}}">Leave Types</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="headphones"></i>
-                            <span>Holidays</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/holiday/all-holidays.html')}}">All Holidays</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/holiday/add-holiday.html')}}">Add Holiday</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/holiday/edit-holiday.html')}}">Edit Holiday</a>
-                            </li>
-                        </ul>
-                    </li>
-              
-                    <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="trello"></i>
-                            <span>Departments</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{route('departments.index')}}">All Departments</a>
-                            </li>
-                            {{-- <li>
-                                <a href="{{asset('admin/pages/departments/add-department.html')}}">Add Department</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/departments/edit-department.html')}}">Edit Departments</a>
-                            </li> --}}
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="bar-chart-2"></i>
-                            <span>Designation</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{route('designations.index')}}">All Designation</a>
-                            </li>
-                           
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="dollar-sign"></i>
-                            <span>Payroll</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/payslip.html')}}">Payslip</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/employee-salary.html')}}">Employee Salary</a>
-                            </li>
-                        </ul>
-                    </li>
+            <!-- Dashboard -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
-                    
-
-                           <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="shield"></i>
-                            <span>Complince</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/payslip.html')}}">Payslip</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/employee-salary.html')}}">Employee Salary</a>
-                            </li>
-                        </ul>
-                    </li>
-                           <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="trending-up"></i>
-                            <span>Performance</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/payslip.html')}}">Payslip</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/employee-salary.html')}}">Employee Salary</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                           <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="bar-chart-2"></i>
-                            <span>Reports</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/payslip.html')}}">Payslip</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/employee-salary.html')}}">Employee Salary</a>
-                            </li>
-                        </ul>
-                    </li>
-                    
-                      <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="bar-chart-2"></i>
-                            <span>Add Admins</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{route('tenant.users.index')}}">All Admin</a>
-                            </li>
-                           
-                        </ul>
-                    </li>
-
-
-                     <li>
-                        <a href="#" onClick="return false;" class="menu-toggle">
-                            <i data-feather="settings"></i>
-                            <span>Setting</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/payslip.html')}}">Payslip</a>
-                            </li>
-                            <li>
-                                <a href="{{asset('admin/pages/payroll/employee-salary.html')}}">Employee Salary</a>
-                            </li>
-                        </ul>
-                    </li>
-                    
-                    
-                    
-                    
-                   
-                   
-                   
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+            <!-- People -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="user"></i>
+                    <span>People</span>
+                </a>
+                <ul class="ml-menu">
+                    <li><a href="{{ asset('admin/pages/employee/all-employees.html') }}">Employee Profiles</a></li>
+                    <li><a href="{{ asset('admin/pages/employee/org-chart.html') }}">Org Chart</a></li>
+                    <li><a href="{{ asset('admin/pages/employee/docs.html') }}">Employee Documents</a></li>
+                    <li><a href="{{ route('departments.index') }}">Departments</a></li>
+                    <li><a href="{{ route('designations.index') }}">Designations</a></li>
                 </ul>
-            </div>
-            <!-- #Menu -->
-        </aside>
+            </li>
+
+            <!-- Onboarding -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="user-plus"></i>
+                    <span>Onboarding</span>
+                </a>
+                <ul class="ml-menu">
+                    <li><a href="{{ asset('admin/pages/onboarding/offer-letters.html') }}">Offer Letters</a></li>
+                    <li><a href="{{ asset('admin/pages/onboarding/checklist.html') }}">New Starter Checklist</a></li>
+                    <li><a href="{{ asset('admin/pages/onboarding/docs-collection.html') }}">Document Collection</a></li>
+                    <li><a href="{{ asset('admin/pages/onboarding/welcome-pack.html') }}">Welcome Pack</a></li>
+                    <li><a href="{{ asset('admin/pages/onboarding/progress-dashboard.html') }}">Progress Dashboard</a></li>
+                </ul>
+            </li>
+
+            <!-- Time Off -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="clock"></i>
+                    <span>Time Off</span>
+                </a>
+                <ul class="ml-menu">
+                    <li><a href="{{ asset('admin/pages/timeoff/leave-requests.html') }}">Leave Requests</a></li>
+                    <li><a href="{{ asset('admin/pages/timeoff/leave-balances.html') }}">Leave Balances</a></li>
+                    <li><a href="{{ asset('admin/pages/timeoff/holiday-calendar.html') }}">Holiday Calendar</a></li>
+                    <li><a href="{{ asset('admin/pages/timeoff/policy-setup.html') }}">Leave Policies</a></li>
+                </ul>
+            </li>
+
+            <!-- Attendance -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="book-open"></i>
+                    <span>Attendance</span>
+                </a>
+                <ul class="ml-menu">
+                    <li><a href="{{ asset('admin/pages/attendance/checkin-out.html') }}">Check In / Out</a></li>
+                    <li><a href="{{ asset('admin/pages/attendance/timesheets.html') }}">Timesheets</a></li>
+                    <li><a href="{{ asset('admin/pages/attendance/absence.html') }}">Absence Tracking</a></li>
+                    <li><a href="{{ asset('admin/pages/attendance/reports.html') }}">Attendance Reports</a></li>
+                </ul>
+            </li>
+
+            <!-- Payroll -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="dollar-sign"></i>
+                    <span>Payroll (Lite)</span>
+                </a>
+                <ul class="ml-menu">
+                    <li><a href="{{ asset('admin/pages/payroll/salary-records.html') }}">Salary Records</a></li>
+                    <li><a href="{{ asset('admin/pages/payroll/payslips.html') }}">Payslips</a></li>
+                    <li><a href="{{ asset('admin/pages/payroll/deductions-allowances.html') }}">Deductions & Allowances</a></li>
+                    <li><a href="{{ asset('admin/pages/payroll/export.html') }}">Export Payroll</a></li>
+                    <li><a href="{{ asset('admin/pages/payroll/history.html') }}">Payroll History</a></li>
+                </ul>
+            </li>
+
+            <!-- Performance -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="trending-up"></i>
+                    <span>Performance</span>
+                </a>
+                <ul class="ml-menu">
+                    <li><a href="{{ asset('admin/pages/performance/review-cycles.html') }}">Review Cycles</a></li>
+                    <li><a href="{{ asset('admin/pages/performance/goals-kpis.html') }}">Goals & KPIs</a></li>
+                    <li><a href="{{ asset('admin/pages/performance/feedback.html') }}">Feedback Notes</a></li>
+                    <li><a href="{{ asset('admin/pages/performance/ratings.html') }}">Ratings</a></li>
+                    <li><a href="{{ asset('admin/pages/performance/history.html') }}">Performance History</a></li>
+                </ul>
+            </li>
+
+            <!-- Compliance -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="shield"></i>
+                    <span>Compliance & Documents</span>
+                </a>
+                <ul class="ml-menu">
+                    <li><a href="{{ asset('admin/pages/compliance/policies.html') }}">HR Policies</a></li>
+                    <li><a href="{{ asset('admin/pages/compliance/contracts.html') }}">Contracts & Agreements</a></li>
+                    <li><a href="{{ asset('admin/pages/compliance/visa-docs.html') }}">Right-to-Work Docs</a></li>
+                    <li><a href="{{ asset('admin/pages/compliance/expiry-alerts.html') }}">Expiry Alerts</a></li>
+                    <li><a href="{{ asset('admin/pages/compliance/audit-trail.html') }}">Audit Trail</a></li>
+                </ul>
+            </li>
+
+            <!-- Reports -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="bar-chart-2"></i>
+                    <span>Reports & Analytics</span>
+                </a>
+                <ul class="ml-menu">
+                    <li><a href="{{ asset('admin/pages/reports/headcount-report.html') }}">Headcount Report</a></li>
+                    <li><a href="{{ asset('admin/pages/reports/leave-report.html') }}">Leave Report</a></li>
+                    <li><a href="{{ asset('admin/pages/reports/attendance-report.html') }}">Attendance Report</a></li>
+                    <li><a href="{{ asset('admin/pages/reports/payroll-report.html') }}">Payroll Report</a></li>
+                    <li><a href="{{ asset('admin/pages/reports/performance-analytics.html') }}">Performance Analytics</a></li>
+                    <li><a href="{{ asset('admin/pages/reports/export-options.html') }}">Export Options</a></li>
+                </ul>
+            </li>
+
+            <!-- Settings -->
+            <li>
+                <a href="#" onClick="return false;" class="menu-toggle">
+                    <i data-feather="settings"></i>
+                    <span>Settings</span>
+                </a>
+                <ul class="ml-menu">
+                    <li><a href="{{ asset('admin/pages/settings/org-setup.html') }}">Organisation Setup</a></li>
+                    <li><a href="{{ route('tenant.users.index') }}">User Roles & Permissions</a></li>
+                    <li><a href="{{ asset('admin/pages/settings/company-calendar.html') }}">Company Calendar</a></li>
+                    <li><a href="{{ asset('admin/pages/settings/branding.html') }}">Branding</a></li>
+                    <li><a href="{{ asset('admin/pages/settings/notification-settings.html') }}">Notifications</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- #Menu -->
+</aside>

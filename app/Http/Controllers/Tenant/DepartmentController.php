@@ -42,6 +42,7 @@ public function create()
         $request->validate([
             'name' => 'required|string|max:255',
             'head_id' => 'nullable|exists:users,id',
+             'description' => 'nullable|string|max:255',
             
         ]);
 
@@ -49,6 +50,8 @@ public function create()
             'tenant_id' => $tenantId,
             'name' => $request->name,
             'head_of_department' => $request->head_id,
+             'description' => $request->description,
+               'added_by' => Auth::id(),
             
         ]);
 

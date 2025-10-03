@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tenant_id')->constrained()->onDelete('cascade'); // Added for multi-tenancy
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->text('added_by')->nullable();
             $table->unsignedBigInteger('head_of_department')->nullable(); // references users
             $table->timestamps();

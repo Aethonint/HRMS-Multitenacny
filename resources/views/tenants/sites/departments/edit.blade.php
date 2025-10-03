@@ -65,6 +65,17 @@
                         </div>
 
                         <!-- Description -->
+                         <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="description">Description description</label>
+                                    <div class="form-line">
+                                        <input type="text" name="description" class="form-control" value="{{ old('description', $department->description) }}">
+                                    </div>
+                                    @error('description')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
                       
 
                         <div class="col-lg-12 p-t-20 text-start">

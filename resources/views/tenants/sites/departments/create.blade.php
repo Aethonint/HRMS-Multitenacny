@@ -64,6 +64,17 @@
                         </div>
 
                         <!-- Description -->
+                          <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="name">Description </label>
+                                    <div class="form-line">
+                                        <textarea type="text" name="description" class="form-control" placeholder="Enter Description " value="{{ old('description') }}"> </textarea>
+                                    </div>
+                                    @error('description')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
                         
 
                         <div class="col-lg-12 p-t-20 text-start">

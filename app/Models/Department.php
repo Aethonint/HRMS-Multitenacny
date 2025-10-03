@@ -10,6 +10,8 @@ class Department extends Model
         'tenant_id',
         'name',
         'head_of_department',
+        'description',
+        'added_by',
     ];
 
     public function head()
@@ -21,4 +23,9 @@ class Department extends Model
     {
         return $this->hasMany(User::class, 'department_id'); // if you add department_id in users table
     }
+    public function addedBy()
+{
+    return $this->belongsTo(User::class, 'added_by');
+}
+
 }
