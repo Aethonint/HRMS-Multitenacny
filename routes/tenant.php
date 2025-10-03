@@ -96,6 +96,9 @@ Route::resource('designations', DesignationController::class);
     // Staff
     Route::middleware(['role:staff'])->prefix('staff')->group(function () {
         Route::get('/dashboard', [StaffController::class, 'index'])->name('staff.dashboard');
+         Route::get('/profile/edit', [StaffController::class, 'profileedit'])->name('profile');
+         Route::patch('/profile/updare', [StaffController::class, 'profileupdate'])->name('staff.profile.update');
+        
     });
 
     // Account Manager
