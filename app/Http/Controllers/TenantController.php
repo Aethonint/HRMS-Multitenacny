@@ -181,7 +181,7 @@ public function profileedit()
    $user = auth()->user(); // or User::find($id);
     return view('Admin.profile',compact('user'));
 }
- public function profileupdate(Request $request)
+public function profileupdate(Request $request)
 {
     $user = $request->user();
 
@@ -199,9 +199,12 @@ public function profileedit()
         'emergency_contact_name' => 'nullable|string|max:255',
         'emergency_contact_relation' => 'nullable|string|max:100',
         'emergency_contact_phone' => 'nullable|string|max:20',
-        'document_status_percentage' => 'nullable|numeric|min:0|max:100',
+        'document_status_percentage' => 'sometimes|numeric|min:0|max:100', // 👈 not nullable
         'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg',
     ]);
+
+    // ✅ Ensure default value if missing
+    $validated['document_status_percentage'] = $validated['document_status_percentage'] ?? 0;
 
     DB::transaction(function () use ($user, $validated, $request) {
         // ✅ Update User Table
@@ -212,11 +215,13 @@ public function profileedit()
         $user->save();
 
         // ✅ Profile Data
-        $profileData = collect($validated)->only([
-            'employee_no','phone','address','dob','employee_status','employment_type',
-            'emergency_contact_name','emergency_contact_relation','emergency_contact_phone',
-            'document_status_percentage','country','profile_picture',
-        ])->toArray();
+        $profileData = collect($validated)
+            ->only([
+                'employee_no','phone','address','dob','employee_status','employment_type',
+                'emergency_contact_name','emergency_contact_relation','emergency_contact_phone',
+                'document_status_percentage','country','profile_picture',
+            ])
+            ->toArray();
 
         // ✅ Handle Profile Picture Upload
         if ($request->hasFile('profile_picture')) {
@@ -225,14 +230,12 @@ public function profileedit()
         }
 
         // ✅ Update or Create Profile
-      // ✅ Update or Create Profile
-$user->profile()->updateOrCreate(
-    ['user_id' => $user->id],
-    array_merge($profileData, [
-        'tenant_id' => $user->tenant_id ?? 0, // 👈 fallback for super admin
-    ])
-);
-
+        $user->profile()->updateOrCreate(
+            ['user_id' => $user->id],
+            array_merge($profileData, [
+                'tenant_id' => $user->tenant_id ?? 0, // 👈 fallback for super admin
+            ])
+        );
     });
 
     return redirect()

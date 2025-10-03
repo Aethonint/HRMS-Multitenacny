@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-              $table->string('tenant_id')->constrained()->onDelete('cascade'); // Added for multi-tenancy
-               $table->string('name');
-                 $table->string('seo');
-               $table->text('added_by')->nullable();
+            $table->string('tenant_id')->constrained()->onDelete('cascade'); // Added for multi-tenancy
+            $table->string('name');
+            $table->string('description');
+            $table->text('added_by')->nullable();
             $table->unsignedBigInteger('head_of_department')->nullable(); // references users
             $table->timestamps();
         });

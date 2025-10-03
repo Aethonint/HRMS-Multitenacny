@@ -479,13 +479,13 @@
                 </div>
 
                 <!-- Document Status Percentage -->
-                <div class="col-lg-6 col-md-12">
+                {{-- <div class="col-lg-6 col-md-12">
                     <div class="form-group">
                         <input type="number" step="0.01" name="document_status_percentage" class="form-control" placeholder="Document Status (%)"
                                value="{{ old('document_status_percentage', optional($user->profile)->document_status_percentage) }}">
                         @error('document_status_percentage')<small class="text-danger">{{ $message }}</small>@enderror
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Profile Picture -->
                 <div class="col-md-12">

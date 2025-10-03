@@ -30,7 +30,7 @@
                         @csrf
                         <div class="row clearfix">
                             <!-- Role Selection -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 d-none">
                                 <div class="form-group">
                                     <label for="role">Role</label>
                                     <div class="form-line">

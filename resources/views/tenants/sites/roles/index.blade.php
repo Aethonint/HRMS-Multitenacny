@@ -27,7 +27,7 @@
                 <div class="header d-flex justify-content-between align-items-center">
                     <h2><strong>All</strong> Users</h2>
                     <a href="{{ route('tenant.users.create') }}" class="btn btn-info btn-lg">
-                        <i class="fas fa-plus fa-lg"></i> Add User
+                        <i class="fas fa-plus fa-lg"></i>  Admin
                     </a>
                 </div>
 
@@ -47,49 +47,44 @@
                                     <th class="center">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @forelse($users as $key => $user)
-                                    <tr class="odd gradeX">
-                                        <td class="center">{{ $key + 1 }}</td>
-                                        <td class="center">{{ $user->first_name }}</td>
-                                        <td class="center">{{ $user->last_name }}</td>
-                                        <td class="center">{{ $user->email }}</td>
-                                        <td class="center">{{ $user->profile->phone ?? '-' }}</td>
-                                        <td class="center">{{ $user->profile->address ?? '-' }}</td>
-                                       <!-- Role Column -->
-                                        <td class="center">
-                                            {{ $user->roles->pluck('name')->implode(', ') ?: '-' }}
-                                        </td>
-                                       <td class="center">
-    <label class="switch">
-        <input type="checkbox" class="status-toggle" data-id="{{ $user->id }}" {{ $user->status == 'active' ? 'checked' : '' }}>
-        <span class="slider round"></span>
-    </label>
-</td>
+                          <tbody>
+    @foreach($users as $key => $user)
+        <tr class="odd gradeX">
+            <td class="center">{{ $key + 1 }}</td>
+            <td class="center">{{ $user->first_name }}</td>
+            <td class="center">{{ $user->last_name }}</td>
+            <td class="center">{{ $user->email }}</td>
+            <td class="center">{{ $user->profile->phone ?? '-' }}</td>
+            <td class="center">{{ $user->profile->address ?? '-' }}</td>
+            <!-- Role Column -->
+            <td class="center">
+                {{ $user->roles->pluck('name')->implode(', ') ?: '-' }}
+            </td>
+            <td class="center">
+                <label class="switch">
+                    <input type="checkbox" class="status-toggle" data-id="{{ $user->id }}" {{ $user->status == 'active' ? 'checked' : '' }}>
+                    <span class="slider round"></span>
+                </label>
+            </td>
+            <td class="center">
+                <a href="{{ route('tenant.users.show', $user->id) }}" class="btn btn-tbl-edit">
+                    <i class="material-icons">visibility</i>
+                </a>
+                <a href="{{ route('tenant.users.edit', $user->id) }}" class="btn btn-tbl-edit">
+                    <i class="material-icons">create</i>
+                </a>
+                <form action="{{ route('tenant.users.destroy', $user->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-tbl-delete">
+                        <i class="material-icons">delete_forever</i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
 
-
-                                        <td class="center">
-                                             <a href="{{ route('tenant.users.show', $user->id) }}" class="btn btn-tbl-edit">
-                                                <i class="material-icons">visibility</i>
-                                            </a>
-                                            <a href="{{ route('tenant.users.edit', $user->id) }}" class="btn btn-tbl-edit">
-                                                <i class="material-icons">create</i>
-                                            </a>
-                                            <form action="{{ route('tenant.users.destroy', $user->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-tbl-delete">
-                                                    <i class="material-icons">delete_forever</i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="8" class="text-center">No users found</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
                         </table>
                     </div>
                 </div>
