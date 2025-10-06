@@ -28,6 +28,16 @@ protected $fillable = [
     'password',
     'role',
     'tenant_id',
+      'status',
+        'joining_date',
+        'employment_status',
+        'employment_type',
+        'manager_id',
+        'department_id',
+        'designation_id',
+
+
+
 ];
 
     /**

@@ -1,4 +1,4 @@
-  <link rel="icon" href="{{asset('admin/assets/images/favicon.ico')}}" type="image/x-icon">
+  {{-- <link rel="icon" href="{{asset('admin/assets/images/favicon.ico')}}" type="image/x-icon">
     <!-- Plugins Core Css -->
     <link href="{{asset('admin/assets/css/common.min.css')}}" rel="stylesheet">
     <!-- Custom Css -->
@@ -18,4 +18,4 @@
     margin-bottom: 10px;
     border-radius: 6px;
 }
-</style>
+</style> --}}

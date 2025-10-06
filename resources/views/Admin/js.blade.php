@@ -144,3 +144,44 @@ $('#basicTable').DataTable({
 });
 
 </script>
+
+
+
+
+<!-- Script for Department → Designation Dynamic Dropdown -->
+<script>
+    $(document).ready(function() {
+        function loadDesignations(deptId, selectedId = null) {
+            $('#designation_id').empty().append('<option value="">-- Select Designation --</option>');
+
+            if (deptId) {
+                $.ajax({
+                    url: "{{ route('departments.designations', ':id') }}".replace(':id', deptId), 
+                    type: 'GET',
+                    success: function(data) {
+                        $.each(data, function(key, designation) {
+                            let selected = (selectedId && selectedId == designation.id) ? 'selected' : '';
+                            $('#designation_id').append(
+                                '<option value="'+ designation.id +'" '+ selected +'>'+ designation.title +'</option>'
+                            );
+                        });
+                    }
+                });
+            }
+        }
+
+        // When user changes department
+        $('#department_id').on('change', function() {
+            var deptId = $(this).val();
+            loadDesignations(deptId);
+        });
+
+        // Load old values (when editing or validation fails)
+        let oldDept  = "{{ old('department_id', isset($employee) ? $employee->department_id : '') }}";
+        let oldDesig = "{{ old('designation_id', isset($employee) ? $employee->designation_id : '') }}";
+
+        if (oldDept) {
+            loadDesignations(oldDept, oldDesig);
+        }
+    });
+</script>

@@ -24,6 +24,12 @@ return new class extends Migration
             $table->date('start_date')->nullable(); // Date when the user started
             $table->integer('employee_id')->nullable(); // Employee ID (HR tracking)
             $table->date('joining_date')->nullable(); // Date when the user joined the company
+             $table->string('department_id')->nullable();
+             $table->string('designation_id')->nullable();
+             $table->string('manager_id')->nullable();
+             $table->string('employment_status')->nullable();
+              $table->string('employment_type')->nullable();
+            
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

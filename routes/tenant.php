@@ -22,8 +22,10 @@ use App\Http\Controllers\Tenant\ManagerController;
 use App\Http\Controllers\Tenant\TenantAdminController;
 use App\Http\Controllers\Tenant\UserController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Tenant\DepartmentController;
 use App\Http\Controllers\Tenant\DesignationController;
+use App\Http\Controllers\Tenant\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,7 +77,14 @@ Route::middleware(['auth'])->group(function () {
 
             Route::resource('departments', DepartmentController::class);
 Route::resource('designations', DesignationController::class);
-    
+Route::resource('employee', EmployeeController::class);
+Route::get('/departments/{id}/designations', [EmployeeController::class, 'getDesignations'])
+    ->name('departments.designations');
+
+     Route::get('setting/unit', [SettingController::class, 'index'])->name('setting.site.units');
+
+
+   
 
         });
 

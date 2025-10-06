@@ -41,11 +41,13 @@
                     <span>People</span>
                 </a>
                 <ul class="ml-menu">
+                     <li><a href="{{ route('employee.index') }}">All Employee</a></li>
                     <li><a href="{{ asset('admin/pages/employee/all-employees.html') }}">Employee Profiles</a></li>
                     <li><a href="{{ asset('admin/pages/employee/org-chart.html') }}">Org Chart</a></li>
                     <li><a href="{{ asset('admin/pages/employee/docs.html') }}">Employee Documents</a></li>
-                    <li><a href="{{ route('departments.index') }}">Departments</a></li>
+                     <li><a href="{{ route('departments.index') }}">Departments</a></li>
                     <li><a href="{{ route('designations.index') }}">Designations</a></li>
+                    
                 </ul>
             </li>
 
@@ -155,18 +157,48 @@
 
             <!-- Settings -->
             <li>
-                <a href="#" onClick="return false;" class="menu-toggle">
-                    <i data-feather="settings"></i>
-                    <span>Settings</span>
-                </a>
-                <ul class="ml-menu">
-                    <li><a href="{{ asset('admin/pages/settings/org-setup.html') }}">Organisation Setup</a></li>
-                    <li><a href="{{ route('tenant.users.index') }}">User Roles & Permissions</a></li>
-                    <li><a href="{{ asset('admin/pages/settings/company-calendar.html') }}">Company Calendar</a></li>
-                    <li><a href="{{ asset('admin/pages/settings/branding.html') }}">Branding</a></li>
-                    <li><a href="{{ asset('admin/pages/settings/notification-settings.html') }}">Notifications</a></li>
-                </ul>
-            </li>
+    <a href="#" onClick="return false;" class="menu-toggle">
+        <i data-feather="settings"></i>
+        <span>Settings</span>
+    </a>
+    <ul class="ml-menu">
+
+        <!-- SYSTEM -->
+        <li>
+            <a href="#" onClick="return false;" class="menu-toggle">SYSTEM</a>
+            <ul class="ml-menu">
+                <li><a href="#">Domain Settings</a></li>
+                <li><a href="#">Integrations</a></li>
+            </ul>
+        </li>
+
+        <!-- COMPANY -->
+        <li>
+            <a href="#" onClick="return false;" class="menu-toggle">COMPANY</a>
+            <ul class="ml-menu">
+                <li><a href="{{route('setting.site.units')}}">Org Units</a></li>
+                <li><a href="#">Job Titles</a></li>
+                <li><a href="#">People</a></li>
+                <li><a href="#">Holidays</a></li>
+                <li><a href="#">Benefits</a></li>
+            </ul>
+        </li>
+
+        <!-- FEATURES -->
+        <li>
+            <a href="#" onClick="return false;" class="menu-toggle">FEATURES</a>
+            <ul class="ml-menu">
+                <li><a href="#">Time Off</a></li>
+                <li><a href="#">Time Tracking</a></li>
+                <li><a href="#">Task Management</a></li>
+                <li><a href="#">Assets</a></li>
+                <li><a href="#">Safe Voice</a></li>
+            </ul>
+        </li>
+
+    </ul>
+</li>
+
         </ul>
     </div>
     <!-- #Menu -->
